@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.order_now.demo.OrderNowApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.73 s -- in com.order_now.demo.OrderNowApplicationTests

@@ -30,4 +30,17 @@ public class Restaurant {
 
     @Column(nullable = false)
     private Boolean enabled = true;
+
+    public RestaurantDTO toDto(){
+        return new RestaurantDTO(this.id,this.name,this.phone,this.email,this.url_img,this.enabled);
+    }
+
+    public Restaurant(String name, String phone, String email, String url_img) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.url_img = url_img;
+        this.enabled = true;
+    }
+
 }
