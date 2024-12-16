@@ -1,5 +1,6 @@
 package com.order_now.demo.menu;
 
+import com.order_now.demo.category.Category;
 import com.order_now.demo.product.Product;
 import com.order_now.demo.product.ProductDTO;
 import com.order_now.demo.product.ProductService;
@@ -21,9 +22,9 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/{restaurant_id}/menu")
-    public ResponseEntity<List<MenuDTO>> findAll(@PathVariable Long restaurant_id){
+    public ResponseEntity<List<Category>> findAll(@PathVariable Long restaurant_id){
 
-        List<MenuDTO>  listDto = this.menuService.showMenu(restaurant_id);
+        List<Category>  listDto = this.menuService.showMenu(restaurant_id);
         return ResponseEntity.ok(listDto);
     }
 }
