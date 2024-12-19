@@ -1,7 +1,11 @@
 package com.order_now.demo.restaurant;
 
+import com.order_now.demo.category.Category;
+import com.order_now.demo.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
@@ -27,6 +31,9 @@ public class Restaurant {
 
     @Column(nullable = false)
     private String url_img;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<Category> categories;
 
     @Column(nullable = false)
     private Boolean enabled = true;

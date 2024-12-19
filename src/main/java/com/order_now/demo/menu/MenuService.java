@@ -25,10 +25,6 @@ public class MenuService {
     public List<Category> showMenu(Long id){
         Restaurant restaurant = this.restaurantService.findById(id);
         List<Category> categories = this.categoryService.findByRestaurant(restaurant.getId());
-        List<Menu> listMenu = new ArrayList<>();
-        for(Category c: categories){
-          listMenu.add(new Menu(restaurant,c.getProducts(),c));
-        }
         return categories;
     }
 }

@@ -22,9 +22,14 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/{restaurant_id}/menu")
-    public ResponseEntity<List<Category>> findAll(@PathVariable Long restaurant_id){
+    public ResponseEntity<List<MenuDTO>> findAll(@PathVariable Long restaurant_id){
 
         List<Category>  listDto = this.menuService.showMenu(restaurant_id);
-        return ResponseEntity.ok(listDto);
+        List<MenuDTO> menuDTOList = new ArrayList<>();
+
+        for(Category c : listDto){
+            menuDTOList.add(new MenuDTO(c.getName(),c.getProducts()));
+        }
+        return ResponseEntity.ok(menuDTOList);
     }
 }
