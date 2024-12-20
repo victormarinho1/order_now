@@ -1,9 +1,8 @@
 package com.order_now.demo.menu;
 
 import com.order_now.demo.category.Category;
-import com.order_now.demo.product.Product;
-import com.order_now.demo.product.ProductDTO;
-import com.order_now.demo.product.ProductService;
+import com.order_now.demo.restaurant.Restaurant;
+import com.order_now.demo.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +20,21 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
+
+
     @GetMapping("/{restaurant_id}/menu")
-    public ResponseEntity<List<MenuDTO>> findAll(@PathVariable Long restaurant_id){
+    public ResponseEntity<MenuDTO> findAll(@PathVariable Long restaurant_id){
 
         List<Category>  listDto = this.menuService.showMenu(restaurant_id);
-        List<MenuDTO> menuDTOList = new ArrayList<>();
-
+        List<MenuItemDTO> menuDTOList = new ArrayList<>();
+        Restaurant restaurant = this.restaurantService.findById(restaurant_id);
         for(Category c : listDto){
-            menuDTOList.add(new MenuDTO(c.getName(),c.getProducts()));
+            menuDTOList.add(new MenuItemDTO(c));
         }
-        return ResponseEntity.ok(menuDTOList);
+        MenuDTO menu = new MenuDTO(restaurant.getName(),menuDTOList);
+        return ResponseEntity.ok(menu);
     }
 }

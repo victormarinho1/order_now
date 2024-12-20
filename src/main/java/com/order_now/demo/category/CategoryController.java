@@ -1,11 +1,12 @@
 package com.order_now.demo.category;
 
+import com.order_now.demo.restaurant.Restaurant;
+import com.order_now.demo.restaurant.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,38 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
 
     @GetMapping("/{restaurant_id}/categories")
-    private ResponseEntity<List<CategoryDTO>> findAll(@PathVariable Long restaurant_id){
+    private ResponseEntity<List<CategoryListDTO>> findAll(@PathVariable Long restaurant_id){
         List<Category> list = this.categoryService.findByRestaurant(restaurant_id);
-        List<CategoryDTO> listDto = new ArrayList<>();
+        List<CategoryListDTO> listDto = new ArrayList<>();
         for(Category c :list){
-            listDto.add(c.toDto());
+            listDto.add(c.toListDto());
         }
        return ResponseEntity.ok(listDto);
+    }
+
+    @PostMapping("/{restaurant_id}/categories/{category_id}")
+    private ResponseEntity create(@PathVariable Long restaurant_id, @RequestBody CategoryDTO categoryDTO){
+        Restaurant restaurant = this.restaurantService.findById(restaurant_id);
+        Category category = new Category(restaurant,categoryDTO);
+        this.categoryService.create(category);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    }
+
+    @PutMapping    ("/categories/{category_id}")
+    private ResponseEntity update(@PathVariable Long category_id, @RequestBody CategoryDTO categoryDTO){
+        this.categoryService.update(category_id,categoryDTO);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/categories/{category_id}")
+    private ResponseEntity delete(@PathVariable Long category_id){
+        this.categoryService.change_status(category_id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

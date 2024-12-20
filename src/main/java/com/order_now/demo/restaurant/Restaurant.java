@@ -32,6 +32,7 @@ public class Restaurant {
     @Column(nullable = false)
     private String url_img;
 
+
     @OneToMany(mappedBy = "restaurant")
     private List<Category> categories;
 

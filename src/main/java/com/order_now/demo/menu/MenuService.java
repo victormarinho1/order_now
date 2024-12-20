@@ -13,8 +13,6 @@ import java.util.List;
 
 @Service
 public class MenuService {
-    @Autowired
-    private RestaurantService restaurantService;
 
     @Autowired
     private CategoryService categoryService;
@@ -23,8 +21,7 @@ public class MenuService {
     private ProductService productService;
 
     public List<Category> showMenu(Long id){
-        Restaurant restaurant = this.restaurantService.findById(id);
-        List<Category> categories = this.categoryService.findByRestaurant(restaurant.getId());
+        List<Category> categories = this.categoryService.findByRestaurant(id);
         return categories;
     }
 }
