@@ -24,6 +24,9 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private int index;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -36,19 +39,21 @@ public class Category {
     private List<Product> products;
 
     public CategoryDTO toDto(){
-        return new CategoryDTO(this.name);
+        return new CategoryDTO(this.name,this.index);
     }
 
     public CategoryListDTO toListDto(){
-        return new CategoryListDTO(this.id,this.name,this.enabled);
+        return new CategoryListDTO(this.id,this.name,this.index,this.enabled);
     }
 
 
     public Category(String name) {
         this.name = name;
     }
-    public Category(Restaurant restaurant,CategoryDTO dto){
+    public Category(Restaurant restaurant,CategoryDTO dto, int index){
         this.name = dto.name();
         this.restaurant = restaurant;
+        this.index = index;
+        this.enabled = true;
     }
 }

@@ -32,16 +32,23 @@ public class CategoryController {
        return ResponseEntity.ok(listDto);
     }
 
-    @PostMapping("/{restaurant_id}/categories/{category_id}")
+    @PostMapping("/{restaurant_id}/categories")
     private ResponseEntity create(@PathVariable Long restaurant_id, @RequestBody CategoryDTO categoryDTO){
         Restaurant restaurant = this.restaurantService.findById(restaurant_id);
-        Category category = new Category(restaurant,categoryDTO);
+        int nextIndex = this.categoryService.findByRestaurant(restaurant_id).size() + 1;
+        Category category = new Category(restaurant,categoryDTO, nextIndex);
         this.categoryService.create(category);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
-    @PutMapping    ("/categories/{category_id}")
+    @PutMapping("/categories/change_status/{category_id}")
+    private ResponseEntity change_status(@PathVariable Long category_id){
+        this.categoryService.change_status(category_id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/categories/{category_id}")
     private ResponseEntity update(@PathVariable Long category_id, @RequestBody CategoryDTO categoryDTO){
         this.categoryService.update(category_id,categoryDTO);
         return ResponseEntity.status(HttpStatus.OK).build();

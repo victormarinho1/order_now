@@ -70,6 +70,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ResponseEntity<ApiError> handleCategoryNotFoundException(CategoryNotFoundException exception, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                "Category not found",
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ApiError> handleNoHandlerFoundException(NoHandlerFoundException exception, HttpServletRequest request) {
         ApiError apiError = new ApiError(

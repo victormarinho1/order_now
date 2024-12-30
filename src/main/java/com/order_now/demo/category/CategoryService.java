@@ -1,5 +1,6 @@
 package com.order_now.demo.category;
 
+import com.order_now.demo.core.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,26 @@ public class CategoryService {
         return this.categoryRepository.findByRestaurantId(id);
     }
 
-    public void change_status(Long id){
+    public Category change_status(Long id){
         Optional<Category> category = this.categoryRepository.findById(id);
+        if (category.isPresent()){
         category.get().setEnabled(!category.get().getEnabled());
-        this.categoryRepository.save(category.get());
+        return this.categoryRepository.save(category.get());
+        }
+        throw new CategoryNotFoundException();
     }
 
-    public void update(Long id, CategoryDTO dto){
-        Category category = this.findBy
+    public Category update(Long id, CategoryDTO dto){
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(category.isPresent()){
+         return this.categoryRepository.save(updateData(dto,category.get()));
+        }
+        throw new CategoryNotFoundException();
+    }
+
+    public Category updateData(CategoryDTO dto, Category category){
+        category.setName(dto.name());
+        category.setIndex(dto.index());
+        return category;
     }
 }
