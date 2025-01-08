@@ -2,6 +2,7 @@ package com.order_now.demo.restaurant;
 
 import com.order_now.demo.core.exception.EmailAlreadyTakenException;
 import com.order_now.demo.core.exception.PhoneAlreadyTakenException;
+import com.order_now.demo.core.exception.restaurant.RestaurantNameAlreadyTakenException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,13 @@ public class RestaurantValidator {
     public void isValid(Restaurant restaurant){
         isEmailAlreadyTaken(restaurant.getEmail());
         isPhoneAlreadyTaken(restaurant.getPhone());
+        isNameAlreadyTaken(restaurant.getName());
+    }
+
+    public void isNameAlreadyTaken(String name){
+        if (restaurantRepository.existsByName(name)){
+            throw new RestaurantNameAlreadyTakenException();
+        }
     }
 
     public void isEmailAlreadyTaken(String email){

@@ -1,6 +1,8 @@
 package com.order_now.demo.category;
 
-import com.order_now.demo.core.exception.CategoryNotFoundException;
+import com.order_now.demo.core.exception.category.CategoryNameAlreadyTakenException;
+import com.order_now.demo.core.exception.category.CategoryNotFoundException;
+import com.order_now.demo.restaurant.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,11 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private CategoryValidator categoryValidator;
+
     public void create(Category category){
+        this.categoryValidator.isValid(category);
         this.categoryRepository.save(category);
     }
 

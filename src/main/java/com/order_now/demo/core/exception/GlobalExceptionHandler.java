@@ -1,5 +1,9 @@
 package com.order_now.demo.core.exception;
 
+import com.order_now.demo.core.exception.category.CategoryNameAlreadyTakenException;
+import com.order_now.demo.core.exception.category.CategoryNotFoundException;
+import com.order_now.demo.core.exception.restaurant.RestaurantNameAlreadyTakenException;
+import com.order_now.demo.core.exception.restaurant.RestaurantNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,4 +100,32 @@ public class GlobalExceptionHandler {
         return  new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+
+    @ExceptionHandler(CategoryNameAlreadyTakenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<ApiError> handleCategoryNameAlreadyTakenException(CategoryNameAlreadyTakenException exception, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                "Category name already taken",
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RestaurantNameAlreadyTakenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ResponseEntity<ApiError> handleRestaurantNameAlreadyTakenException(RestaurantNameAlreadyTakenException exception, HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                "Restaurant name already taken",
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
 }

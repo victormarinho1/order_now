@@ -1,6 +1,6 @@
 package com.order_now.demo.restaurant;
 
-import com.order_now.demo.core.exception.RestaurantNotFoundException;
+import com.order_now.demo.core.exception.restaurant.RestaurantNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

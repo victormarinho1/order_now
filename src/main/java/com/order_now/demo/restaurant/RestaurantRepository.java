@@ -20,5 +20,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
 
     boolean existsByPhone(String phone);
 
+    boolean existsByName(String name);
+
     List<Restaurant> findAllByOrderByIdAsc();
 }
