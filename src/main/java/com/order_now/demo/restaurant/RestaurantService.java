@@ -32,7 +32,6 @@ public class RestaurantService {
     public void create(RestaurantDTO restaurantDTO){
         Restaurant restaurant = new Restaurant(restaurantDTO.name(),restaurantDTO.phone(),
                 restaurantDTO.email(),restaurantDTO.url_img());
-
         restaurantValidator.isValid(restaurant);
         this.restaurantRepository.save(restaurant);
     }
