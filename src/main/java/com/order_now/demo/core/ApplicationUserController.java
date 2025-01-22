@@ -6,7 +6,9 @@ import com.order_now.demo.core.authentication.LoginDTO;
 import com.order_now.demo.core.authentication.LoginResponseDTO;
 import com.order_now.demo.core.authentication.RegisterDTO;
 import com.order_now.demo.core.config.TokenService;
+import com.order_now.demo.core.email.EmailService;
 import com.order_now.demo.core.listener.EmailSentEventDTO;
+import com.order_now.demo.email_verificator.EmailVerificatorService;
 import com.order_now.demo.user.User;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -42,11 +44,16 @@ public class ApplicationUserController{
     @Autowired
     private final RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private EmailVerificatorService emailVerificatorService;
 
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid LoginDTO loginDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(),loginDTO.password());
+        this.emailVerificatorService.isVerified(loginDTO.email());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
