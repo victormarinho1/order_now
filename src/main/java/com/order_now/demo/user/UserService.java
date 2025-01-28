@@ -4,6 +4,7 @@ import com.order_now.demo.core.Role;
 import com.order_now.demo.core.authentication.AuthenticationService;
 import com.order_now.demo.core.authentication.RegisterDTO;
 import com.order_now.demo.core.exception.user.UserNotFoundException;
+import com.order_now.demo.email_verificator.EmailVerificatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class UserService{
 
     @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private EmailVerificatorService emailVerificatorService;
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -48,6 +52,7 @@ public class UserService{
     public UserDTO create(User user) {
         userValidator.checkEmailExists(user.getEmail());
         userValidator.checkEmailValidity(user.getEmail());
+        this.emailVerificatorService.create(user.getEmail());
         user.setRole(Role.BOSS);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return convertToDTO(userRepository.save(user));
@@ -55,6 +60,7 @@ public class UserService{
 
     public User create(RegisterDTO registerDTO) {
         User user = new User(registerDTO.email(),registerDTO.name(),registerDTO.password(),Role.BOSS);
+        this.emailVerificatorService.create(user.getEmail());
         return this.userRepository.save(user);
     }
 
