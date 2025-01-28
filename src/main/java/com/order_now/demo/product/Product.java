@@ -2,10 +2,8 @@ package com.order_now.demo.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.order_now.demo.category.Category;
-import com.order_now.demo.restaurant.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "product")

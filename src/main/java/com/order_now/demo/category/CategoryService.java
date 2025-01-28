@@ -1,8 +1,6 @@
 package com.order_now.demo.category;
 
-import com.order_now.demo.core.exception.category.CategoryNameAlreadyTakenException;
 import com.order_now.demo.core.exception.category.CategoryNotFoundException;
-import com.order_now.demo.restaurant.RestaurantValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
