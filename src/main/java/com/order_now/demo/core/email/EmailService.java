@@ -26,7 +26,7 @@ public class EmailService {
         MimeMessage message = emailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(new InternetAddress(sender,"Smart Park Support","UTF-8"));
+            helper.setFrom(new InternetAddress(sender,"Order Now Support","UTF-8"));
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);

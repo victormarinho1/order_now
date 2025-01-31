@@ -129,10 +129,10 @@ public class ApplicationUserService implements UserDetailsService{
                             "        <p class=\"password\">"+newPassword+"</p>\n" +
                             "        <p>Use esta senha para acessar sua conta. Você pode alterá-la a qualquer momento nas configurações da sua conta.</p>\n" +
                             "        <p>Se precisar de ajuda, não hesite em entrar em contato.</p>\n" +
-                            "        <p>Atenciosamente,<br>A equipe do Smart Parking</p>\n" +
+                            "        <p>Atenciosamente,<br>A equipe do Order Now</p>\n" +
                             "    </div>\n" +
                             "    <div class=\"footer\">\n" +
-                            "        <p>© 2024 Smart Parking. Todos os direitos reservados.</p>\n" +
+                            "        <p>© 2025 Order Now. Todos os direitos reservados.</p>\n" +
                             "    </div>\n" +
                             "</body>\n" +
                             "</html>\n");

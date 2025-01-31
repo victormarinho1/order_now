@@ -1,6 +1,7 @@
 package com.order_now.demo.email_verificator;
 
 import com.order_now.demo.core.email.EmailService;
+import com.order_now.demo.core.exception.EmailAlreadyTakenException;
 import com.order_now.demo.core.exception.EmailNotVerifiedException;
 import com.order_now.demo.core.exception.TokenInvalidException;
 import com.order_now.demo.user.UserRepository;
@@ -45,9 +46,9 @@ public class EmailVerificatorService {
     public boolean isVerified (String email){
         Optional<EmailVerificator> optEmail = this.emailVerificatorRepository.findByEmailAndVerifiedTrue(email);
         if(optEmail.isPresent()){
-            return true;
+            throw new EmailAlreadyTakenException();
         }
-        throw new EmailNotVerifiedException();
+            return false;
     }
 
     public EmailVerificatorDTO sendEmailVerificationLink(String email, String token) {
@@ -108,10 +109,10 @@ public class EmailVerificatorService {
                         "        <p>Obrigado por se registrar na nossa plataforma. Para finalizar seu cadastro e ativar sua conta, por favor, clique no link abaixo:</p>\n" +
                         "        <a href=\"" + verificationLink +"\" style=\"color: #fff; text-decoration: none;\" class=\"button\">Verificar E-mail</a>\n" +
                         "        <p>Se você não se registrou em nossa plataforma, ignore este e-mail.</p>\n" +
-                        "        <p>Atenciosamente,<br>A equipe do Smart Parking</p>\n" +
+                        "        <p>Atenciosamente,<br>A equipe do Order Now</p>\n" +
                         "    </div>\n" +
                         "    <div class=\"footer\">\n" +
-                        "        <p>© 2024 Smart Parking. Todos os direitos reservados.</p>\n" +
+                        "        <p>© 2025 Order Now. Todos os direitos reservados.</p>\n" +
                         "    </div>\n" +
                         "</body>\n" +
                         "</html>\n"

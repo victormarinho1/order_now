@@ -49,18 +49,13 @@ public class UserService{
         return convertToDTO(user);
     }
 
-    public UserDTO create(User user) {
-        userValidator.checkEmailExists(user.getEmail());
+    public User create(RegisterDTO registerDTO) {
+        User user = new User(registerDTO.email(),registerDTO.name(),registerDTO.password(),Role.BOSS);
+        emailVerificatorService.isVerified(user.getEmail());
         userValidator.checkEmailValidity(user.getEmail());
         this.emailVerificatorService.create(user.getEmail());
         user.setRole(Role.BOSS);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return convertToDTO(userRepository.save(user));
-    }
-
-    public User create(RegisterDTO registerDTO) {
-        User user = new User(registerDTO.email(),registerDTO.name(),registerDTO.password(),Role.BOSS);
-        this.emailVerificatorService.create(user.getEmail());
         return this.userRepository.save(user);
     }
 
