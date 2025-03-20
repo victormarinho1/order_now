@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 import static com.order_now.demo.core.config.RabbitMqConfig.EMAIL_SENT_QUEUE;
+import static com.order_now.demo.core.config.RabbitMqConfig.EMAIL_SENT_REGISTER_QUEUE;
 
 @RestController
 @AllArgsConstructor
@@ -55,7 +56,13 @@ public class ApplicationUserController{
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO registerDTO){
-        this.applicationUserService.create(registerDTO);
+        rabbitTemplate.convertAndSend(EMAIL_SENT_REGISTER_QUEUE,registerDTO);
+        EmailResponseDTO response = new EmailResponseDTO(
+                "Verify email sent.",
+                HttpStatus.CREATED.value(),
+                HttpStatus.CREATED.getReasonPhrase(),
+                LocalDateTime.now()
+        );
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

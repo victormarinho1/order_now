@@ -1,6 +1,7 @@
 package com.order_now.demo.user;
 
 import com.order_now.demo.core.Role;
+import com.order_now.demo.restaurant.Restaurant;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -25,6 +26,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_restaurant",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "restaurant_id")
+    )
+    private List<Restaurant> restaurants;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -53,6 +62,11 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
     }
 
     @Override
